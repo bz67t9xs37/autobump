@@ -14,6 +14,8 @@ import (
 // Personal fork notes:
 //   - Using this for my own projects to automate semantic versioning
 //   - Exit code 2 used for usage errors, exit code 1 for runtime errors
+//   - TODO: explore adding a --dry-run flag that prints the new version without
+//     writing any files, useful for previewing bumps in CI pipelines
 func main() {
 	if err := cli.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
