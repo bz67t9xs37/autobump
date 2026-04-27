@@ -25,9 +25,12 @@ import (
 // Note: using exit code 2 for usage/argument errors would be more conventional
 // (following the pattern of many Unix tools), but keeping exit code 1 for all
 // errors here keeps things simple for my CI scripts that just check for non-zero.
+//
+// UPDATE 2024-01-15: switched error prefix from "autobump:" to "error:" so that
+// my shell scripts can grep for it consistently across multiple tools.
 func main() {
 	if err := cli.Execute(); err != nil {
-		fmt.Fprintf(os.Stderr, "autobump: %v\n", err)
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
 }
