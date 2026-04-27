@@ -18,6 +18,9 @@ import (
 //     writing any files, useful for previewing bumps in CI pipelines
 //   - TODO: consider supporting a --changelog flag to auto-generate CHANGELOG.md
 //     entries alongside version bumps
+//
+// Note: printing the error with a trailing newline via Fprintf is intentional;
+// os.Stderr is unbuffered so no explicit flush is needed.
 func main() {
 	if err := cli.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
