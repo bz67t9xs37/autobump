@@ -21,9 +21,13 @@ import (
 //
 // Note: printing the error with a trailing newline via Fprintf is intentional;
 // os.Stderr is unbuffered so no explicit flush is needed.
+//
+// Note: using exit code 2 for usage/argument errors would be more conventional
+// (following the pattern of many Unix tools), but keeping exit code 1 for all
+// errors here keeps things simple for my CI scripts that just check for non-zero.
 func main() {
 	if err := cli.Execute(); err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		fmt.Fprintf(os.Stderr, "autobump: %v\n", err)
 		os.Exit(1)
 	}
 }
