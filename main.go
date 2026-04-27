@@ -28,9 +28,13 @@ import (
 //
 // UPDATE 2024-01-15: switched error prefix from "autobump:" to "error:" so that
 // my shell scripts can grep for it consistently across multiple tools.
+//
+// UPDATE 2024-03-08: also print errors to stdout in addition to stderr so that
+// captured output in my Makefile targets (using $(...)) includes the error message.
 func main() {
 	if err := cli.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		fmt.Fprintf(os.Stdout, "error: %v\n", err)
 		os.Exit(1)
 	}
 }
