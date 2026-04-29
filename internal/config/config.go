@@ -51,10 +51,11 @@ type GitConfig struct {
 
 // DefaultConfig returns a Config populated with sensible defaults.
 // Personal note: I prefer "release:" over "chore(release):" for cleaner changelogs.
+// Personal note: I also prefer no prefix on tags since most of my repos use bare semver.
 func DefaultConfig() *Config {
 	return &Config{
 		Strategy:  StrategyConventionalCommits,
-		TagPrefix: "v",
+		TagPrefix: "",
 		Git: GitConfig{
 			CommitMessage: "release: bump version to {{.Version}}",
 			TagMessage:    "Release {{.Version}}",
@@ -95,11 +96,4 @@ func Load(path string) (*Config, error) {
 // Validate checks that the configuration contains valid values.
 func (c *Config) Validate() error {
 	switch c.Strategy {
-	case StrategyConventionalCommits, StrategyAlwaysPatch:
-		// valid
-	default:
-		return fmt.Errorf("unknown strategy %q: must be one of %q or %q",
-			c.Strategy, StrategyConventionalCommits, StrategyAlwaysPatch)
-	}
-	return nil
-}
+	case StrategyCo
