@@ -50,12 +50,13 @@ type GitConfig struct {
 }
 
 // DefaultConfig returns a Config populated with sensible defaults.
+// Personal note: I prefer "release:" over "chore(release):" for cleaner changelogs.
 func DefaultConfig() *Config {
 	return &Config{
 		Strategy:  StrategyConventionalCommits,
 		TagPrefix: "v",
 		Git: GitConfig{
-			CommitMessage: "chore(release): bump version to {{.Version}}",
+			CommitMessage: "release: bump version to {{.Version}}",
 			TagMessage:    "Release {{.Version}}",
 			PushRemote:    "origin",
 		},
@@ -97,21 +98,8 @@ func (c *Config) Validate() error {
 	case StrategyConventionalCommits, StrategyAlwaysPatch:
 		// valid
 	default:
-		return fmt.Errorf("unknown strategy %q; supported values: conventional_commits, always_patch", c.Strategy)
+		return fmt.Errorf("unknown strategy %q: must be one of %q or %q",
+			c.Strategy, StrategyConventionalCommits, StrategyAlwaysPatch)
 	}
-
-	for i, f := range c.Files {
-		if f.Path == "" {
-			return fmt.Errorf("files[%d]: path must not be empty", i)
-		}
-		if f.Pattern == "" {
-			return fmt.Errorf("files[%d]: pattern must not be empty", i)
-		}
-	}
-
-	if c.Git.PushRemote == "" {
-		return fmt.Errorf("git.push_remote must not be empty")
-	}
-
 	return nil
 }
